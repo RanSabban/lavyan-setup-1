@@ -4,10 +4,15 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from 'next/navigation';
+import { PrismaClient } from '@prisma/client/edge'
+
+const prisma = new PrismaClient()
 
 const FormSchema = z.object({
 
 })
+
+// export async function createUser
 // import { signIn } from "@/auth";
 // import { AuthError } from "next-auth";
 
