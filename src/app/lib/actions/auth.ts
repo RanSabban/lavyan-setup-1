@@ -1,6 +1,8 @@
 'use server'
 
 import { SignupFormSchema, FormState } from "../definisions"
+import prisma from "../prismaClient"
+
 const bcrypt = require('bcrypt')
 
 export async function signup(state: FormState, formData: FormData) {
@@ -21,8 +23,22 @@ export async function signup(state: FormState, formData: FormData) {
     const { name, email, password } = validatedFields.data
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    console.log(name, email, hashedPassword);
+    console.log(name, email, hashedPassword)
 
+    try {
+        const newUser = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password
+            },
+        })
+        console.log('new user created', newUser)
+    } catch (error: any) {
+        console.log('cannot create user', error.message);
+    }
+
+    
 
     // Call the provider or db to create a user...
 }
